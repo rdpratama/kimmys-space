@@ -1,4 +1,5 @@
-import Hero from "@/components/Hero";
+import Events from "@/components/jktEvents";
+import News from "@/components/jktNews";
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
 
@@ -9,8 +10,9 @@ export default function Home() {
         <Navbar />
       </div>
 
-      <div className="px-5">
-        <Hero />
+      <div className="px-5 flex gap-2">
+        <Events />
+        <News />
       </div>
     </main>
   );
