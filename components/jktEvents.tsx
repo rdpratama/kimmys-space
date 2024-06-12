@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/sheet";
 
 async function getData() {
-  const res = await fetch("https://api.crstlnz.my.id/api/news");
+  const res = await fetch("https://api.crstlnz.my.id/api/event");
 
   if (!res.ok) {
     throw new Error("Failed fetching data");
@@ -36,23 +36,27 @@ async function getData() {
 
 export default async function jktEvents() {
   const data = await getData();
-  const product = data["news"];
+  const product = data["theater"]["upcoming"];
 
   console.log("fetch 200ok");
   return (
     <main className="">
       <div className="h-[28rem] w-[22rem] rounded-md border p-4">
         <div className="w-80 h-10 border-b">
-          <h1 className="text-xl">News</h1>
+          <h1 className="text-xl">Theater</h1>
         </div>
         <ScrollArea className="w-full h-[23rem]">
           <div className="w-80 h-80">
             {product.map((product: any) => {
+              const date = new Date(product.date);
+              const formattedDate = format(date, "d MMMM yyyy");
+
+              const url = "jkt48.com";
               return (
                 <div key={product} className="w-80">
                   <Sheet>
                     <SheetTrigger asChild>
-                      <div className="w-full h-24 flex items-center border-b">
+                      <div className="w-full h-14 flex items-center border-b">
                         <h1 className="cursor-pointer">{product.title}</h1>
                       </div>
                     </SheetTrigger>
@@ -63,11 +67,14 @@ export default async function jktEvents() {
                         </SheetTitle>
                         <img src={product.poster} className="rounded" />
                         <SheetDescription>
+                          Show : {formattedDate}
                           <p>Member show : {product.member_count}</p>
                         </SheetDescription>
                       </SheetHeader>
                       <SheetFooter>
-                        <Button>Apply</Button>
+                        <a href={product.url}>
+                          <Button>Apply</Button>
+                        </a>
                       </SheetFooter>
                     </SheetContent>
                   </Sheet>
